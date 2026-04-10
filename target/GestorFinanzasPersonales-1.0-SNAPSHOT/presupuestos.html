@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="presupuestos.css" />
+    <title>Presupuestos</title>
+</head>
+
+<body>
+
+    <!-- Botón para abrir el menú -->
+    <button class="menu-toggle" id="menuBtn">
+        <img src="./img/menuCerrado.svg" alt="menu" id="menuIcon" style="width: 48px; height: 48px;">
+    </button>
+
+    <!-- Menú lateral derecho -->
+    <aside class="side-menu" id="sideMenu">
+        <div class="user-box">
+            <div class="user-icon">
+                <img src="./img/login.svg" alt="icon">
+            </div>
+            <p class="user-name">Usuario</p>
+        </div>
+
+        <ul class="menu-options">
+            <li onclick="window.location.href='perfil.html'">Perfil</li>
+            <li onclick="window.location.href='movimientos.html'">Movimientos</li>
+            <li class="active">Presupuestos</li>
+            <li onclick="window.location.href='metas.html'">Metas</li>
+            <li onclick="window.location.href='reportes.html'">Reportes</li>
+            <li onclick="window.location.href='copiadeSeguridad.html'">Copia de seguridad</li>
+            <li onclick="window.location.href='configuracion.html'">Configuración</li>
+            <li onclick="window.location.href='login.html'">Cerrar Sesión</li>
+        </ul>
+    </aside>
+
+    <!-- Contenedor principal -->
+    <main class="content">
+
+        <!-- Título Nuevo Presupuesto -->
+        <div class="new-movement-header" id="newBudgetBtn" onclick="window.location.href='crearPresupuesto.html'">
+            <img src="./img/iconPlus.svg" alt="plus">
+            <h1>Nuevo Presupuesto</h1>
+        </div>
+
+    </main>
+
+    <!-- Notificación de éxito -->
+    <div id="successNotification" class="notification-toast">
+        <div class="notification-content">
+            <div class="notification-text">
+                <strong>Presupuesto agregado</strong>
+                <p>Ahora puedes visualizarlo en el historial</p>
+            </div>
+            <span class="close-icon" onclick="hideNotification()">×</span>
+        </div>
+    </div>
+
+    <!-- Barra inferior -->
+    <nav class="bottom-bar">
+        <div class="icon" onclick="window.location.href='movimientos.html'">
+            <img src="./img/iconMovimiento.svg" alt="icon">
+            <span class="text">Movimiento</span>
+        </div>
+        <div class="icon" onclick="window.location.href='presupuestos.html'">
+            <span class="separator"></span>
+            <img src="./img/iconPresupuesto.svg" alt="icon">
+            <span class="text">Presupuesto</span>
+        </div>
+        <div class="icon" onclick="window.location.href='metas.html'">
+            <span class="separator"></span>
+            <img src="./img/iconMetas.svg" alt="icon">
+            <span class="text">Metas</span>
+        </div>
+        <div class="icon" onclick="window.location.href='reportes.html'">
+            <span class="separator"></span>
+            <img src="./img/iconReportes.svg" alt="icon">
+            <span class="text">Reportes</span>
+        </div>
+    </nav>
+
+    <script>
+        const btn = document.getElementById("menuBtn");
+        const menu = document.getElementById("sideMenu");
+        const icon = document.getElementById("menuIcon");
+
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("open");
+
+            if (menu.classList.contains("open")) {
+                icon.src = "./img/menuAbierto.svg";
+            } else {
+                icon.src = "./img/menuCerrado.svg";
+            }
+        });
+
+        const menuItems = document.querySelectorAll(".menu-options li");
+        menuItems.forEach(item => {
+            item.addEventListener("click", () => {
+                menuItems.forEach(i => i.classList.remove("active"));
+                item.classList.add("active");
+            });
+        });
+
+        const footerIcons = document.querySelectorAll(".bottom-bar .icon");
+        footerIcons.forEach(icon => {
+            icon.addEventListener("click", () => {
+                footerIcons.forEach(i => i.classList.remove("active"));
+                icon.classList.add("active");
+            });
+        });
+
+        // Check for success parameter
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('success') === 'budget') {
+                const successNotif = document.getElementById('successNotification');
+                if (successNotif) {
+                    successNotif.classList.add('show');
+                    // Auto-hide after 5 seconds
+                    setTimeout(() => {
+                        hideNotification();
+                    }, 5000);
+                }
+            }
+        });
+
+        function hideNotification() {
+            const successNotif = document.getElementById('successNotification');
+            if (successNotif) {
+                successNotif.classList.remove('show');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
