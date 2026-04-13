@@ -13,6 +13,9 @@ public class UsuarioServlet extends HttpServlet {
 
     private UsuarioDAO dao = new UsuarioDAO();
 
+    // ============================
+    // MÉTODO POST (INSERT, UPDATE, DELETE)
+    // ============================
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -34,7 +37,6 @@ public class UsuarioServlet extends HttpServlet {
 
             request.setAttribute("mensaje",
                     exito ? "Usuario registrado correctamente" : "Error al registrar");
-
         }
 
         // ELIMINAR
@@ -45,7 +47,6 @@ public class UsuarioServlet extends HttpServlet {
 
             request.setAttribute("mensaje",
                     exito ? "Usuario eliminado correctamente" : "Error al eliminar");
-
         }
 
         // ACTUALIZAR
@@ -61,18 +62,34 @@ public class UsuarioServlet extends HttpServlet {
 
             request.setAttribute("mensaje",
                     exito ? "Usuario actualizado correctamente" : "Error al actualizar");
-
         }
 
-        // SI NO VIENE ACCIÓN
+        // ACCIÓN INVÁLIDA
         else {
             request.setAttribute("mensaje", "Acción no válida");
         }
 
-        // SIEMPRE LISTAR USUARIOS
+        // SIEMPRE LISTAR
         request.setAttribute("listaUsuarios", dao.obtenerTodos());
 
-        // REDIRECCIONAR A JSP
+        // IR AL JSP
+        request.getRequestDispatcher("mensaje.jsp").forward(request, response);
+    }
+
+    // ============================
+    // MÉTODO GET (CONSULTAR)
+    // ============================
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Obtener usuarios
+        request.setAttribute("listaUsuarios", dao.obtenerTodos());
+
+        // Mensaje opcional
+        request.setAttribute("mensaje", "Consulta realizada con GET");
+
+        // Redirigir al JSP
         request.getRequestDispatcher("mensaje.jsp").forward(request, response);
     }
 }

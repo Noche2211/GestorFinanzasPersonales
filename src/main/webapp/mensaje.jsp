@@ -10,9 +10,19 @@
 
 <h2>Resultado del registro</h2>
 
-<p style="color:green;">
-    <%= request.getAttribute("mensaje") %>
-</p>
+<%
+    String mensaje = (String) request.getAttribute("mensaje");
+    if (mensaje != null) {
+%>
+    <p style="color:green;">
+        <%= mensaje %>
+    </p>
+<%
+    }
+%>
+
+<!-- 🔥 BOTÓN GET (IMPORTANTE PARA EV02) -->
+<a href="UsuarioServlet">Consultar usuarios (GET)</a>
 
 <h3>Usuarios registrados:</h3>
 
@@ -28,7 +38,7 @@
 <%
     List<Usuario> lista = (List<Usuario>) request.getAttribute("listaUsuarios");
 
-    if (lista != null) {
+    if (lista != null && !lista.isEmpty()) {
         for (Usuario u : lista) {
 %>
     <tr>
@@ -53,6 +63,12 @@
     </tr>
 <%
         }
+    } else {
+%>
+    <tr>
+        <td colspan="5">No hay usuarios registrados</td>
+    </tr>
+<%
     }
 %>
 
@@ -67,9 +83,9 @@
     <input type="hidden" name="accion" value="actualizar">
     <input type="hidden" name="idUsuario" id="idUsuario">
 
-    Nombre: <input type="text" name="nombre" id="nombre"><br><br>
-    Apellido: <input type="text" name="apellido" id="apellido"><br><br>
-    Correo: <input type="email" name="correo" id="correo"><br><br>
+    Nombre: <input type="text" name="nombre" id="nombre" required><br><br>
+    Apellido: <input type="text" name="apellido" id="apellido" required><br><br>
+    Correo: <input type="email" name="correo" id="correo" required><br><br>
 
     <button type="submit">Actualizar</button>
 
